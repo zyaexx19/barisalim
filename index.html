@@ -60,6 +60,8 @@ font-size:50px;
 color:#d63384;
 }
 
+/* butonlar */
+
 .buttons{
 position:fixed;
 bottom:120px;
@@ -93,9 +95,14 @@ animation:rise 6s linear;
 z-index:1;
 }
 
-.photo img{width:100%;border-radius:6px;}
+.photo img{
+width:100%;
+border-radius:6px;
+}
 
-.caption{font-size:11px;}
+.caption{
+font-size:11px;
+}
 
 @keyframes rise{
 
@@ -247,19 +254,27 @@ let texts=[
 "Bu fotoğrafa da mı hayır?"
 ]
 
+/* hayır butonu */
+
 noBtn.onclick=()=>{
 
 grow+=20
 yesBtn.style.fontSize=(18+grow)+"px"
 
-let x=Math.random()*200-100
-let y=Math.random()*100-50
+/* sadece basınca yer değiştirir */
 
-noBtn.style.transform=`translate(${x}px,${y}px)`
+let x=Math.random()*(window.innerWidth-120)
+let y=Math.random()*(window.innerHeight-200)
+
+noBtn.style.position="fixed"
+noBtn.style.left=x+"px"
+noBtn.style.top=y+"px"
 
 showPhoto()
 
 }
+
+/* foto çıkar */
 
 function showPhoto(){
 
@@ -280,6 +295,8 @@ document.body.appendChild(div)
 
 }
 
+/* evet */
+
 yesBtn.onclick=()=>{
 
 document.getElementById("mainSite").style.display="none"
@@ -289,6 +306,8 @@ finalText.style.display="block"
 startHearts()
 
 }
+
+/* kalpler */
 
 function startHearts(){
 

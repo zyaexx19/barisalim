@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Barışalım mı? 🤍</title>
+<title>Bir şey soracağım 🤍</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
@@ -21,13 +21,36 @@ align-items:center;
 justify-content:center;
 }
 
-.container{
+/* başlangıç ekranı */
+
+.start{
 text-align:center;
-z-index:2;
 }
 
-h1{
-font-family:'Great Vibes',cursive;
+.start h1{
+font-family:'Great Vibes';
+font-size:80px;
+color:#d63384;
+}
+
+.start button{
+padding:15px 35px;
+font-size:22px;
+border:none;
+border-radius:15px;
+cursor:pointer;
+margin:10px;
+}
+
+/* ana ekran */
+
+.container{
+text-align:center;
+display:none;
+}
+
+.container h2{
+font-family:'Great Vibes';
 font-size:80px;
 color:#d63384;
 margin-bottom:40px;
@@ -40,7 +63,6 @@ border:none;
 border-radius:15px;
 cursor:pointer;
 margin:10px;
-transition:0.2s;
 }
 
 #yes{
@@ -61,7 +83,6 @@ background:white;
 padding:10px;
 border-radius:10px;
 box-shadow:0 10px 25px rgba(0,0,0,0.25);
-animation:drop 0.6s ease;
 z-index:1;
 }
 
@@ -76,10 +97,7 @@ margin-top:5px;
 text-align:center;
 }
 
-@keyframes drop{
-0%{transform:scale(0) rotate(-20deg);}
-100%{transform:scale(1) rotate(0deg);}
-}
+/* final mesaj */
 
 .final{
 position:absolute;
@@ -90,8 +108,27 @@ font-size:70px;
 font-family:'Great Vibes';
 color:#d63384;
 display:none;
-text-align:center;
 z-index:9999;
+text-align:center;
+}
+
+/* kalpler */
+
+.heart{
+position:absolute;
+font-size:30px;
+animation:float 4s linear infinite;
+}
+
+@keyframes float{
+0%{
+transform:translateY(0) scale(1);
+opacity:1;
+}
+100%{
+transform:translateY(-800px) scale(2);
+opacity:0;
+}
 }
 
 </style>
@@ -99,15 +136,24 @@ z-index:9999;
 
 <body>
 
-<!-- MÜZİK -->
-<audio autoplay loop>
+<audio id="music" loop>
 <source src="muzik.mp3" type="audio/mpeg">
 </audio>
 
-<div class="container">
-<h1>Barışalım mı? 🤍</h1>
+<div class="start" id="startScreen">
+<h1>Sana bir şey sorabilir miyim?</h1>
+
+<button onclick="startSite()">Evet</button>
+<button onclick="startSite()">Hayır</button>
+</div>
+
+<div class="container" id="mainSite">
+
+<h2>Barışalım mı? 🤍</h2>
+
 <button id="yes">Evet</button>
 <button id="no">Hayır</button>
+
 </div>
 
 <div class="final" id="finalText">
@@ -116,16 +162,27 @@ Biliyodum barışacağını zaten 🤍
 
 <script>
 
+let music = document.getElementById("music")
 let yesBtn = document.getElementById("yes")
 let noBtn = document.getElementById("no")
 let finalText = document.getElementById("finalText")
 
 let grow = 0
 
+function startSite(){
+
+document.getElementById("startScreen").style.display="none"
+document.getElementById("mainSite").style.display="block"
+
+music.play()
+
+}
+
 let images = [
 "1.jpeg","2.jpeg","3.jpeg","4.jpeg","5.jpeg","6.jpeg",
 "7.jpeg","8.jpeg","9.jpeg","10.jpeg","11.jpeg","12.jpeg",
-"13.jpeg","14.jpeg","15.jpeg", ]
+"13.jpeg","14.jpeg","15.jpeg","16.jpeg","17.jpeg","18.jpeg"
+]
 
 let texts = [
 "Bir daha düşün bence 🙂",
@@ -182,8 +239,31 @@ document.body.appendChild(div)
 
 yesBtn.onclick = () => {
 
-document.querySelector(".container").style.display="none"
+document.getElementById("mainSite").style.display="none"
+
 finalText.style.display="block"
+
+startHearts()
+
+}
+
+function startHearts(){
+
+setInterval(()=>{
+
+let heart = document.createElement("div")
+
+heart.className="heart"
+
+heart.innerHTML="❤️"
+
+heart.style.left=Math.random()*100+"%"
+
+heart.style.bottom="-50px"
+
+document.body.appendChild(heart)
+
+},200)
 
 }
 

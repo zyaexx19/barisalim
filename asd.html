@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barışalım mı? 🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#ffd6e7,#ffeaf3);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.container{
+text-align:center;
+z-index:2;
+}
+
+h1{
+font-family:'Great Vibes',cursive;
+font-size:80px;
+color:#d63384;
+margin-bottom:40px;
+}
+
+button{
+padding:15px 35px;
+font-size:22px;
+border:none;
+border-radius:15px;
+cursor:pointer;
+margin:10px;
+transition:0.2s;
+}
+
+#yes{
+background:#28a745;
+color:white;
+}
+
+#no{
+background:#dc3545;
+color:white;
+position:absolute;
+}
+
+.photo{
+position:absolute;
+width:220px;
+background:white;
+padding:10px;
+border-radius:10px;
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
+animation:drop 0.6s ease;
+}
+
+.photo img{
+width:100%;
+border-radius:6px;
+}
+
+.caption{
+font-size:14px;
+margin-top:5px;
+text-align:center;
+}
+
+@keyframes drop{
+0%{transform:scale(0) rotate(-20deg);}
+100%{transform:scale(1) rotate(0deg);}
+}
+
+.final{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:60px;
+font-family:'Great Vibes';
+color:#d63384;
+display:none;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+<h1>Barışalım mı? 🤍</h1>
+<button id="yes">Evet</button>
+<button id="no">Hayır</button>
+</div>
+
+<div class="final" id="finalText">
+Biliyodum barışacağını zaten 🤍
+</div>
+
+<script>
+
+let yesBtn = document.getElementById("yes")
+let noBtn = document.getElementById("no")
+let finalText = document.getElementById("finalText")
+
+let grow = 0
+
+// FOTOĞRAFLAR (.jpeg)
+let images = [
+"1.jpeg","2.jpeg","3.jpeg","4.jpeg","5.jpeg","6.jpeg",
+"7.jpeg","8.jpeg","9.jpeg","10.jpeg","11.jpeg","12.jpeg",
+"13.jpeg","14.jpeg","15.jpeg"]
+
+// MESAJLAR
+let texts = [
+"Bir daha düşün bence 🙂",
+"Buna da mı hayır diyeceksin?",
+"Bak ne kadar tatlıyız 🤍",
+"Tam emin misin?",
+"Bence evet daha mantıklı",
+"Hayır demek zorunda mısın ki",
+"Bir şans daha ver bence",
+"Bu fotoğrafa da mı hayır?"
+]
+
+// HAYIR BASILINCA
+noBtn.onclick = () => {
+
+grow += 20
+yesBtn.style.fontSize = (22 + grow) + "px"
+
+moveNoButton()
+
+showPhoto()
+
+}
+
+// HAYIR BUTONU KAÇSIN
+function moveNoButton(){
+
+let x = Math.random() * (window.innerWidth - 100)
+let y = Math.random() * (window.innerHeight - 50)
+
+noBtn.style.left = x + "px"
+noBtn.style.top = y + "px"
+
+}
+
+// FOTOĞRAF GÖSTER
+function showPhoto(){
+
+let img = images[Math.floor(Math.random()*images.length)]
+let text = texts[Math.floor(Math.random()*texts.length)]
+
+let div = document.createElement("div")
+div.className="photo"
+
+div.style.left = Math.random()*80 + "%"
+div.style.top = Math.random()*80 + "%"
+div.style.transform = "rotate("+(Math.random()*30-15)+"deg)"
+
+div.innerHTML = `
+<img src="${img}">
+<div class="caption">${text}</div>
+`
+
+document.body.appendChild(div)
+
+}
+
+// EVET BASILINCA
+yesBtn.onclick = () => {
+
+document.querySelector(".container").style.display="none"
+finalText.style.display="block"
+
+}
+
+</script>
+
+</body>
+</html>

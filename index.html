@@ -1,472 +1,312 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Bir şey soracağım 🤍</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+export default function BendeVarLandingPage() { const categories = [ { name: "Elektronik", count: "1.240 aktif talep", icon: "📱" }, { name: "Ev Eşyası", count: "860 aktif talep", icon: "🛋️" }, { name: "Moda", count: "540 aktif talep", icon: "👕" }, { name: "Araç", count: "320 aktif talep", icon: "🚗" }, { name: "Hizmet", count: "910 aktif talep", icon: "🛠️" }, { name: "Emlak", count: "210 aktif talep", icon: "🏠" }, { name: "Eğitim", count: "430 aktif talep", icon: "🎓" }, { name: "Diğer", count: "150 aktif talep", icon: "📦" }, ];
 
-  <style>
-    *{
-      box-sizing:border-box;
-      -webkit-tap-highlight-color:transparent;
-    }
+const requests = [ { title: "Temiz iPhone 13 arıyorum", category: "Elektronik", city: "İstanbul", budget: "20.000 - 24.000 TL", offers: 12, desc: "Kutusuz olabilir, ekran ve pil durumu iyi olsun.", }, { title: "Düğün fotoğrafçısı arıyorum", category: "Hizmet", city: "Ankara", budget: "15.000 - 25.000 TL", offers: 8, desc: "Dış çekim dahil paket teklifleri değerlendiriyorum.", }, { title: "2. el çalışma masası arıyorum", category: "Ev Eşyası", city: "İzmir", budget: "2.000 - 4.000 TL", offers: 5, desc: "Beyaz veya meşe tonlarında, sağlam durumda olsun.", }, { title: "Klima montajı yaptıracağım", category: "Hizmet", city: "Bursa", budget: "1.500 - 3.000 TL", offers: 9, desc: "Hafta içi akşam saatlerinde hizmet verebilen biri lazım.", }, ];
 
-    html, body{
-      margin:0;
-      width:100%;
-      height:100%;
-      overflow:hidden;
-    }
+const steps = [ { number: "01", title: "Talep Aç", text: "Ne aradığını, bütçeni ve konumunu yaz. İstersen görsel de ekle.", }, { number: "02", title: "Teklif Al", text: "Satıcılar sana fiyat, açıklama ve ürün detayları göndersin.", }, { number: "03", title: "Mesajlaş & Anlaş", text: "Uygun kişiyi seç, konuş, pazarlık yap ve anlaşmanı tamamla.", }, ];
 
-    body{
-      font-family:'Poppins',sans-serif;
-      background:linear-gradient(135deg,#ffd6e7,#ffeaf3);
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-    }
+const trustItems = [ "Onaylı kullanıcı profilleri", "Yorum ve puan sistemi", "Güvenli mesajlaşma", "Şikayet ve destek hattı", ];
 
-    .screen{
-      width:100%;
-      padding:20px;
-      position:relative;
-      z-index:20;
-    }
+return ( <div className="min-h-screen bg-slate-50 text-slate-900"> <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur"> <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6"> <div className="flex items-center gap-3"> <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-600 text-lg font-bold text-white shadow-sm"> BV </div> <div> <p className="text-lg font-extrabold">Bende Var</p> <p className="text-xs text-slate-500">Arayanla satıcıyı buluşturur</p> </div> </div>
 
-    .start h1,
-    .main h2{
-      font-family:'Great Vibes',cursive;
-      color:#d63384;
-      margin:0 0 18px;
-      line-height:1.1;
-      text-shadow:0 2px 10px rgba(255,255,255,.35);
-    }
+<nav className="hidden items-center gap-6 md:flex">
+        <a href="#anasayfa" className="text-sm font-medium text-slate-700 hover:text-blue-600">Ana Sayfa</a>
+        <a href="#talepler" className="text-sm font-medium text-slate-700 hover:text-blue-600">Talepler</a>
+        <a href="#kategoriler" className="text-sm font-medium text-slate-700 hover:text-blue-600">Kategoriler</a>
+        <a href="#nasil-calisir" className="text-sm font-medium text-slate-700 hover:text-blue-600">Nasıl Çalışır</a>
+      </nav>
 
-    .start h1{
-      font-size:44px;
-      min-height:58px;
-    }
-
-    .main h2{
-      font-size:48px;
-      padding:0 10px;
-    }
-
-    .start-buttons{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-
-    .start-btn,
-    #yes,
-    #no{
-      border:none;
-      border-radius:16px;
-      padding:12px 20px;
-      font-size:17px;
-      font-weight:600;
-      color:#fff;
-      cursor:pointer;
-      box-shadow:0 8px 20px rgba(0,0,0,.14);
-      touch-action:manipulation;
-      white-space:nowrap;
-    }
-
-    .start-yes,
-    #yes{
-      background:#28a745;
-    }
-
-    .start-no,
-    #no{
-      background:#dc3545;
-    }
-
-    .main{
-      display:none;
-    }
-
-    .buttons-layer{
-      position:fixed;
-      left:0;
-      top:0;
-      width:100%;
-      height:100%;
-      pointer-events:none;
-      z-index:10000;
-      display:none;
-    }
-
-    #yes,
-    #no{
-      position:fixed;
-      pointer-events:auto;
-      max-width:none;
-      min-width:92px;
-    }
-
-    #yes{
-      left:50%;
-      bottom:78px;
-      transform:translateX(calc(-100% - 10px));
-      transition:left .18s ease, top .18s ease, transform .18s ease;
-    }
-
-    #no{
-      left:50%;
-      bottom:78px;
-      transform:translateX(10px);
-      transition:left .18s ease, top .18s ease, transform .18s ease;
-    }
-
-    .photo{
-      position:fixed;
-      width:112px;
-      background:#fff;
-      padding:6px;
-      border-radius:10px;
-      box-shadow:0 10px 25px rgba(0,0,0,.22);
-      z-index:2;
-      animation:photoPop .35s ease;
-      overflow:hidden;
-    }
-
-    .photo img{
-      display:block;
-      width:100%;
-      height:auto;
-      border-radius:6px;
-    }
-
-    .caption{
-      font-size:10px;
-      color:#444;
-      margin-top:5px;
-      text-align:center;
-    }
-
-    @keyframes photoPop{
-      from{
-        opacity:0;
-      }
-      to{
-        opacity:1;
-      }
-    }
-
-    .fade-bg{
-      position:fixed;
-      inset:0;
-      background:rgba(255,255,255,.10);
-      backdrop-filter:blur(2px);
-      display:none;
-      z-index:99990;
-    }
-
-    .final{
-      position:fixed;
-      left:50%;
-      top:50%;
-      transform:translate(-50%,-50%);
-      width:min(88vw,520px);
-      padding:24px 20px;
-      border-radius:24px;
-      background:rgba(0,0,0,.84);
-      color:#fff;
-      font-family:'Great Vibes',cursive;
-      font-size:40px;
-      line-height:1.2;
-      box-shadow:0 14px 34px rgba(0,0,0,.35);
-      display:none;
-      z-index:99999;
-      text-align:center;
-    }
-
-    .heart{
-      position:fixed;
-      bottom:-20px;
-      font-size:24px;
-      z-index:99998;
-      pointer-events:none;
-      animation:floatUp 3.8s linear forwards;
-    }
-
-    @keyframes floatUp{
-      from{
-        transform:translateY(0) scale(1);
-        opacity:1;
-      }
-      to{
-        transform:translateY(-85vh) scale(1.7);
-        opacity:0;
-      }
-    }
-
-    @media (min-width:700px){
-      .start h1{ font-size:62px; min-height:74px; }
-      .main h2{ font-size:68px; }
-      .start-btn, #yes, #no{
-        font-size:19px;
-        padding:14px 24px;
-      }
-      .photo{ width:132px; }
-      .final{ font-size:48px; }
-    }
-  </style>
-</head>
-<body>
-
-  <audio id="music" loop>
-    <source src="muzik.mp3" type="audio/mpeg">
-  </audio>
-
-  <div class="fade-bg" id="fadeBg"></div>
-
-  <div class="screen start" id="startScreen">
-    <h1 id="typeText"></h1>
-    <div class="start-buttons">
-      <button class="start-btn start-yes" onclick="startSite()">Evet</button>
-      <button class="start-btn start-no" onclick="startSite()">Sorucam kaçarın yok</button>
+      <div className="hidden items-center gap-3 md:flex">
+        <button className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100">
+          Giriş Yap
+        </button>
+        <button className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">
+          Talep Oluştur
+        </button>
+      </div>
     </div>
-  </div>
+  </header>
 
-  <div class="screen main" id="mainSite">
-    <h2>Barışalım mı? 🤍</h2>
-  </div>
+  <main id="anasayfa">
+    <section className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-6 md:py-24">
+      <div>
+        <span className="inline-flex rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+          Ürün ve hizmet talepleri için pazar yeri
+        </span>
+        <h1 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
+          Aradığını yaz, <span className="text-blue-600">satıcılar sana teklif versin</span>
+        </h1>
+        <p className="mt-5 max-w-xl text-base leading-7 text-slate-600 md:text-lg">
+          Ürün, hizmet, ikinci el eşya ya da özel istek fark etmez. Talebini oluştur,
+          sana uygun satıcılardan teklifler gelsin, karşılaştır ve hızlıca iletişime geç.
+        </p>
 
-  <div class="buttons-layer" id="buttonsLayer">
-    <button id="yes">Evet</button>
-    <button id="no">Hayır</button>
-  </div>
+        <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="grid gap-3 md:grid-cols-[1fr_180px_160px]">
+            <input
+              className="h-14 rounded-2xl border border-slate-200 px-4 outline-none placeholder:text-slate-400 focus:border-blue-500"
+              placeholder="Ne arıyorsun? Örn: iPhone 13, klima montajı, çalışma masası"
+            />
+            <select className="h-14 rounded-2xl border border-slate-200 px-4 text-slate-600 outline-none focus:border-blue-500">
+              <option>Kategori seç</option>
+              <option>Elektronik</option>
+              <option>Ev Eşyası</option>
+              <option>Moda</option>
+              <option>Hizmet</option>
+              <option>Emlak</option>
+            </select>
+            <button className="h-14 rounded-2xl bg-blue-600 px-6 text-sm font-bold text-white hover:bg-blue-700">
+              Talep Oluştur
+            </button>
+          </div>
+        </div>
 
-  <div class="final" id="finalText">Biliyodum barışacağını zaten 🤍</div>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <button className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800">
+            Talepleri İncele
+          </button>
+          <button className="rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">
+            Satıcı Olarak Katıl
+          </button>
+        </div>
+      </div>
 
-  <script>
-    const music = document.getElementById("music");
-    const startScreen = document.getElementById("startScreen");
-    const mainSite = document.getElementById("mainSite");
-    const buttonsLayer = document.getElementById("buttonsLayer");
-    const yesBtn = document.getElementById("yes");
-    const noBtn = document.getElementById("no");
-    const finalText = document.getElementById("finalText");
-    const fadeBg = document.getElementById("fadeBg");
-    const typeText = document.getElementById("typeText");
+      <div className="relative">
+        <div className="absolute -left-6 top-10 h-28 w-28 rounded-full bg-blue-100 blur-2xl" />
+        <div className="absolute -right-6 bottom-0 h-28 w-28 rounded-full bg-slate-200 blur-2xl" />
 
-    let noCount = 0;
-    let photosShown = [];
-    let heartInterval = null;
-    let started = false;
+        <div className="relative rounded-[32px] border border-slate-200 bg-white p-5 shadow-xl">
+          <div className="rounded-[28px] bg-slate-900 p-4 text-white">
+            <div className="rounded-[24px] bg-white p-4 text-slate-900">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                  <p className="text-sm text-slate-500">Aktif talep</p>
+                  <h3 className="text-lg font-bold">Temiz iPhone 13 arıyorum</h3>
+                </div>
+                <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">
+                  12 teklif geldi
+                </span>
+              </div>
 
-    const images = [
-      "1.jpeg","2.jpeg","3.jpeg","4.jpeg","5.jpeg","6.jpeg",
-      "7.jpeg","8.jpeg","9.jpeg","10.jpeg","11.jpeg","12.jpeg",
-      "13.jpeg","14.jpeg","15.jpeg"];
+              <div className="mt-4 space-y-3">
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="font-semibold">Teklif 1</p>
+                    <span className="text-sm font-bold text-blue-600">22.500 TL</span>
+                  </div>
+                  <p className="mt-1 text-sm text-slate-600">
+                    Bende var, temiz kullanıldı. Kutu ve şarj kablosu mevcut.
+                  </p>
+                </div>
 
-    const texts = [
-      "Bir daha düşün bence 🙂",
-      "Buna da mı hayır diyeceksin?",
-      "Bak ne kadar tatlıyız 🤍",
-      "Tam emin misin?",
-      "Bence evet daha mantıklı",
-      "Hayır demek zorunda mısın ki",
-      "Bir şans daha ver bence",
-      "Bu fotoğrafa da mı hayır?"
-    ];
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="font-semibold">Teklif 2</p>
+                    <span className="text-sm font-bold text-blue-600">23.000 TL</span>
+                  </div>
+                  <p className="mt-1 text-sm text-slate-600">
+                    Pil sağlığı yüksek, yüz yüze teslim edebilirim.
+                  </p>
+                </div>
 
-    function startSite(){
-      if(started) return;
-      started = true;
+                <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
+                  <p className="text-sm font-semibold text-blue-700">Mesajlaşma başladı</p>
+                  <p className="mt-1 text-sm text-slate-700">
+                    “Merhaba, cihazın fotoğraflarını gönderebilir misiniz?”
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      startScreen.style.display = "none";
-      mainSite.style.display = "block";
-      buttonsLayer.style.display = "block";
+    <section id="kategoriler" className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-10">
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">Kategoriler</p>
+          <h2 className="mt-2 text-3xl font-black">Hızlı kategori seç</h2>
+        </div>
+        <button className="hidden rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 md:block">
+          Tümünü Gör
+        </button>
+      </div>
 
-      resetButtons();
-      music.play().catch(() => {});
-    }
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {categories.map((item) => (
+          <div
+            key={item.name}
+            className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+          >
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
+              {item.icon}
+            </div>
+            <h3 className="mt-4 text-lg font-bold">{item.name}</h3>
+            <p className="mt-1 text-sm text-slate-500">{item.count}</p>
+          </div>
+        ))}
+      </div>
+    </section>
 
-    function resetButtons(){
-      noCount = 0;
+    <section id="nasil-calisir" className="mx-auto max-w-7xl px-4 py-16 md:px-6">
+      <div className="text-center">
+        <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">Nasıl çalışır?</p>
+        <h2 className="mt-2 text-3xl font-black md:text-4xl">3 adımda kullan</h2>
+      </div>
 
-      yesBtn.style.fontSize = "";
-      yesBtn.style.padding = "";
-      yesBtn.style.left = "50%";
-      yesBtn.style.top = "";
-      yesBtn.style.bottom = "78px";
-      yesBtn.style.transform = "translateX(calc(-100% - 10px))";
-      yesBtn.style.display = "inline-block";
+      <div className="mt-10 grid gap-6 md:grid-cols-3">
+        {steps.map((step) => (
+          <div key={step.number} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="text-sm font-black text-blue-600">{step.number}</div>
+            <h3 className="mt-4 text-2xl font-bold">{step.title}</h3>
+            <p className="mt-3 leading-7 text-slate-600">{step.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
 
-      noBtn.style.left = "50%";
-      noBtn.style.top = "";
-      noBtn.style.bottom = "78px";
-      noBtn.style.transform = "translateX(10px)";
-      noBtn.style.display = "inline-block";
-    }
+    <section id="talepler" className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-10">
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">Öne çıkan talepler</p>
+          <h2 className="mt-2 text-3xl font-black">Yeni açılan talepler</h2>
+        </div>
+        <button className="hidden rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 md:block">
+          Tüm talepleri gör
+        </button>
+      </div>
 
-    const typingSentence = "Sana bir şey sorabilir miyim?";
-    let typeIndex = 0;
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {requests.map((item) => (
+          <div key={item.title} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="flex items-center justify-between">
+              <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">
+                {item.category}
+              </span>
+              <span className="text-xs text-slate-500">{item.offers} teklif</span>
+            </div>
 
-    function typeWriter(){
-      if(typeIndex < typingSentence.length){
-        typeText.innerHTML += typingSentence.charAt(typeIndex);
-        typeIndex++;
-        setTimeout(typeWriter, 60);
-      }
-    }
-    typeWriter();
+            <h3 className="mt-4 text-lg font-bold leading-7">{item.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{item.desc}</p>
 
-    function randomFrom(arr){
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
+            <div className="mt-5 space-y-2 text-sm text-slate-600">
+              <div className="flex items-center justify-between">
+                <span>Şehir</span>
+                <span className="font-semibold text-slate-900">{item.city}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Bütçe</span>
+                <span className="font-semibold text-slate-900">{item.budget}</span>
+              </div>
+            </div>
 
-    function moveNoButton(){
-      noBtn.style.transform = "none";
-      noBtn.style.bottom = "auto";
+            <div className="mt-6 flex gap-3">
+              <button className="flex-1 rounded-2xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">
+                Detay
+              </button>
+              <button className="flex-1 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700">
+                Teklif Ver
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
 
-      const btnW = noBtn.offsetWidth || 90;
-      const btnH = noBtn.offsetHeight || 46;
+    <section className="mx-auto max-w-7xl px-4 py-16 md:px-6">
+      <div className="rounded-[32px] bg-slate-900 px-6 py-10 text-white md:px-10 md:py-14">
+        <div className="grid gap-8 md:grid-cols-[1.2fr_1fr] md:items-center">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-blue-300">Güven</p>
+            <h2 className="mt-3 text-3xl font-black md:text-4xl">
+              Kullanıcıların rahatça iletişime geçebileceği güvenli yapı
+            </h2>
+            <p className="mt-4 max-w-2xl text-slate-300 leading-7">
+              Profil doğrulama, yorum sistemi ve şikayet desteği ile alıcı ve satıcıyı aynı
+              platformda güvenle buluştur.
+            </p>
+          </div>
 
-      const margin = 14;
-      const topSafe = 89;
-      const bottomSafe = 89;
+          <div className="grid gap-4 sm:grid-cols-2">
+            {trustItems.map((item) => (
+              <div key={item} className="rounded-3xl bg-white/10 p-5 backdrop-blur">
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-white/15 text-lg">
+                  ✓
+                </div>
+                <p className="font-semibold">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
 
-      const minX = margin;
-      const maxX = Math.max(margin, window.innerWidth - btnW - margin);
+    <section className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:pb-20">
+      <div className="rounded-[32px] border border-slate-200 bg-white px-6 py-10 text-center shadow-sm md:px-10 md:py-14">
+        <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">Hemen başla</p>
+        <h2 className="mt-3 text-3xl font-black md:text-5xl">
+          Talep oluştur, doğru satıcı sana ulaşsın
+        </h2>
+        <p className="mx-auto mt-4 max-w-2xl leading-7 text-slate-600">
+          Ürün ya da hizmet fark etmez. İhtiyacını yaz, teklifleri topla, karşılaştır ve en uygun kişiyle iletişime geç.
+        </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <button className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-bold text-white hover:bg-blue-700">
+            Talep Aç
+          </button>
+          <button className="rounded-2xl border border-slate-300 bg-white px-6 py-3 text-sm font-bold text-slate-700 hover:bg-slate-100">
+            Satıcı Olarak Katıl
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
 
-      const minY = topSafe;
-      const maxY = Math.max(topSafe, window.innerHeight - btnH - bottomSafe);
+  <footer className="border-t border-slate-200 bg-white">
+    <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-4 md:px-6">
+      <div>
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-600 font-bold text-white">
+            BV
+          </div>
+          <div>
+            <p className="font-extrabold">Bende Var</p>
+            <p className="text-sm text-slate-500">Talep ve teklif platformu</p>
+          </div>
+        </div>
+        <p className="mt-4 text-sm leading-6 text-slate-600">
+          Arayanla satıcıyı aynı yerde buluşturan sade ve modern pazar yeri deneyimi.
+        </p>
+      </div>
 
-      const x = Math.random() * (maxX - minX) + minX;
-      const y = Math.random() * (maxY - minY) + minY;
+      <div>
+        <h4 className="font-bold">Kurumsal</h4>
+        <ul className="mt-4 space-y-3 text-sm text-slate-600">
+          <li>Hakkımızda</li>
+          <li>İletişim</li>
+          <li>Kariyer</li>
+        </ul>
+      </div>
 
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    }
+      <div>
+        <h4 className="font-bold">Yardım</h4>
+        <ul className="mt-4 space-y-3 text-sm text-slate-600">
+          <li>SSS</li>
+          <li>Destek</li>
+          <li>Güvenlik</li>
+        </ul>
+      </div>
 
-    function resizeYesButton(){
-      const fontSize = Math.min(17 + noCount * 4, 34);
-      const padY = Math.min(12 + noCount * 0.8, 20);
-      const padX = Math.min(20 + noCount * 1.8, 34);
+      <div>
+        <h4 className="font-bold">Yasal</h4>
+        <ul className="mt-4 space-y-3 text-sm text-slate-600">
+          <li>Gizlilik Politikası</li>
+          <li>Kullanım Şartları</li>
+          <li>KVKK</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
 
-      yesBtn.style.fontSize = fontSize + "px";
-      yesBtn.style.padding = padY + "px " + padX + "px";
-    }
-
-    function showPhoto(){
-      const card = document.createElement("div");
-      card.className = "photo";
-
-      const img = randomFrom(images);
-      const text = randomFrom(texts);
-
-      const cardWidth = window.innerWidth >= 700 ? 132 : 112;
-      const estimatedHeight = cardWidth * 1.45;
-
-      const xMargin = 10;
-      const yTop = 56;
-      const yBottomReserve = 130;
-
-      const x = Math.random() * Math.max(10, (window.innerWidth - cardWidth - xMargin * 2)) + xMargin;
-      const y = Math.random() * Math.max(10, (window.innerHeight - estimatedHeight - yTop - yBottomReserve)) + yTop;
-      const rotate = Math.random() * 28 - 14;
-
-      card.style.left = x + "px";
-      card.style.top = y + "px";
-      card.style.transform = `rotate(${rotate}deg)`;
-
-      card.innerHTML = `
-        <img src="${img}" alt="">
-        <div class="caption">${text}</div>
-      `;
-
-      document.body.appendChild(card);
-      photosShown.push(card);
-    }
-
-    noBtn.addEventListener("click", () => {
-      noCount++;
-      resizeYesButton();
-      showPhoto();
-      moveNoButton();
-    });
-
-    yesBtn.addEventListener("click", () => {
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      mainSite.style.display = "none";
-      fadeBg.style.display = "block";
-
-      arrangePhotosAsHeart();
-      startHearts();
-
-      setTimeout(() => {
-        finalText.style.display = "block";
-      }, 350);
-    });
-
-    function arrangePhotosAsHeart(){
-      if(photosShown.length === 0){
-        showPhoto();
-        showPhoto();
-        showPhoto();
-        showPhoto();
-      }
-
-      const count = photosShown.length;
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2 + 10;
-      const scale = Math.min(window.innerWidth, window.innerHeight) * 0.017;
-
-      photosShown.forEach((photo, index) => {
-        const t = (Math.PI * 2 * index) / count;
-        const hx = 16 * Math.pow(Math.sin(t), 3);
-        const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-
-        const px = centerX + hx * scale - photo.offsetWidth / 2;
-        const py = centerY + hy * scale - photo.offsetHeight / 2;
-
-        photo.style.transition = "left .9s ease, top .9s ease, transform .9s ease";
-        photo.style.left = px + "px";
-        photo.style.top = py + "px";
-        photo.style.transform = `rotate(${Math.random() * 14 - 7}deg)`;
-        photo.style.zIndex = "99991";
-      });
-    }
-
-    function startHearts(){
-      if(heartInterval) return;
-
-      heartInterval = setInterval(() => {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        document.body.appendChild(heart);
-
-        setTimeout(() => {
-          heart.remove();
-        }, 3800);
-      }, 170);
-    }
-
-    window.addEventListener("resize", () => {
-      if(finalText.style.display === "block"){
-        arrangePhotosAsHeart();
-      } else if(started){
-        const rect = noBtn.getBoundingClientRect();
-        if(rect.right > window.innerWidth || rect.bottom > window.innerHeight || rect.left < 0 || rect.top < 0){
-          moveNoButton();
-        }
-      }
-    });
-  </script>
-</body>
-</html>
-
+); }
